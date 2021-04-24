@@ -1,0 +1,49 @@
+#include <iostream>
+#include <bitset>
+#include <math.h>
+using namespace std;
+
+const int n=4;
+string compl_2(int num){
+  if (num<0){
+  return ("1"+ bitset<n-1>(pow(2,n-1)+num).to_string());}
+  return  bitset<n>(num).to_string();
+}
+bitset<n> suma(bitset<n> a, bitset<n> b){
+  int carry=0;
+  bitset<n> s;
+  for (int i=0; i<n; i++){
+    s[i]=a[i]^b[i]^carry;
+    carry=(a[i]&b[i])|(a[i]&carry)|(b[i]&carry);
+  }
+  return s;
+}
+
+int main(){
+  int count=n;
+  //conversión a complemento a 2
+  string n1=compl_2(3); 
+  string n2=compl_2(7); 
+  //Algoritmo de Booth:
+  bitset<n>a('0'),q(n1),m(n2);
+  bitset<1>q_1('0');
+  while (count>0){
+    if (q[0]==1 && q_1[0]==0){
+      //cambio de signo
+      bitset<n> aux=~m;
+      aux[0]=aux[0]^1;
+      a=suma(a,aux);
+    }
+    else if (q[0]==0 && q_1[0]==1){
+      a=suma(a,m);
+    }  
+    //shift     
+    q_1[0]=q[0];
+    q>>=1;
+    q[n-1]=a[0];
+    a>>=1;
+    a[n-1]=a[n-2];
+    count--;
+  }
+  cout<<a<<q;//resultado
+}
