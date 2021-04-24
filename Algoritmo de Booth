@@ -20,10 +20,12 @@ bitset<n> suma(bitset<n> a, bitset<n> b){
 }
 
 int main(){
-  int count=n;
+  int count=n, m1, m2;
   //conversión a complemento a 2
-  string n1=compl_2(3); 
-  string n2=compl_2(7); 
+  cout<<"Ingrese el 1er número: "; cin>>m1;
+  cout<<"Ingrese el 2do número: "; cin>>m2;
+  string n1=compl_2(m1); 
+  string n2=compl_2(m2); 
   //Algoritmo de Booth:
   bitset<n>a('0'),q(n1),m(n2);
   bitset<1>q_1('0');
@@ -44,6 +46,7 @@ int main(){
     a>>=1;
     a[n-1]=a[n-2];
     count--;
+    cout<<a<<" "<<q<<endl;
   }
-  cout<<a<<q;//resultado
+  cout<<"El producto es: "<<a<<q;//resultado
 }
